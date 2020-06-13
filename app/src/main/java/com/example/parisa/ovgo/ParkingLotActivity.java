@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -16,6 +17,7 @@ public class ParkingLotActivity extends AppCompatActivity {
     boolean parkingFree;
     String message = "";
     ImageButton imageButton1;
+    TextView textView1;
 
 
 
@@ -69,6 +71,7 @@ public class ParkingLotActivity extends AppCompatActivity {
 
         parkingFree = new Random().nextBoolean();
         imageButton1 = findViewById(R.id.imageButton1);
+        textView1 = findViewById(R.id.textView1);
 
         /*If the parking status becomes free/occupied the car icon will change
         this implementation is because we just have one active sensor. It can be
@@ -79,6 +82,7 @@ public class ParkingLotActivity extends AppCompatActivity {
             imageButton1.setImageResource(R.drawable.cargreen);
         } else{
             imageButton1.setImageResource(R.drawable.carred);
+            textView1.setText("Parking\nlot 1\nis Full");
         }
 
     }

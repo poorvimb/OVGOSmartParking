@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent mapsIntent = new Intent(MainActivity.this, TimerActivity.class);
+                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
                 startActivity(mapsIntent);
                 finish();
             }
