@@ -14,7 +14,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -43,7 +42,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     LocationListener locationListener;
     String address = "";
-    Toast addressTst;
 
 
     @Override
@@ -109,17 +107,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             address += listAddresses.get(0).getLocality();
                         }
 
-                        addressTst = Toast.makeText(MapsActivity.this, address, Toast.LENGTH_LONG);
-                        addressTst.show();
-                        addressTst.cancel();
                         //Double radius = CalculationByDistance(currentLocation, latLngOfG9);
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
@@ -138,26 +130,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         };
+        Toast.makeText(MapsActivity.this, address, Toast.LENGTH_LONG).show();
 
-        if (Build.VERSION.SDK_INT < 23) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            } else {
-
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mMap.clear();
-                Log.i("User Location", lastKnownLocation.toString());
-                // Add a marker in current location.
-                LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Log.i("User Location", lastKnownLocation.toString());
+            // Add a marker in current location.
+            LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
         }
 
     }
@@ -171,7 +157,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(lotMarker)){
-
             Intent intent = new Intent(getApplicationContext(),TimerActivity.class);
             startActivity(intent);
             return true;
@@ -184,7 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     location of parking lots.
      */
 
-    public double CalculationByDistance(@NotNull LatLng StartP, @NotNull LatLng EndP) {
+    /*public double CalculationByDistance(@NotNull LatLng StartP, @NotNull LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
         double lat1 = StartP.latitude;
         double lat2 = EndP.latitude;
@@ -207,5 +192,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 + " Meter   " + meterInDec);
 
         return Radius * c;
-    }
+    }*/
 }
