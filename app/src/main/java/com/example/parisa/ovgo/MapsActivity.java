@@ -41,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker lotMarker, finMarker; //Markers on two parking areas at OVGU campus
     LocationManager locationManager;
     LocationListener locationListener;
+    LatLng currentLocation;
     String address = "";
 
 
@@ -83,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
 
-                LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
 
@@ -157,7 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(lotMarker)){
-            Intent intent = new Intent(getApplicationContext(),TimerActivity.class);
+            Intent intent = new Intent(getApplicationContext(),ParkingLotActivity.class);
             startActivity(intent);
             return true;
         }
@@ -169,7 +170,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     location of parking lots.
      */
 
-    /*public double CalculationByDistance(@NotNull LatLng StartP, @NotNull LatLng EndP) {
+    public double calculationByDistance(@NotNull LatLng StartP, @NotNull LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
         double lat1 = StartP.latitude;
         double lat2 = EndP.latitude;
@@ -192,5 +193,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 + " Meter   " + meterInDec);
 
         return Radius * c;
-    }*/
+    }
+
 }
