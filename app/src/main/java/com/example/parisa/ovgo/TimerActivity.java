@@ -21,9 +21,9 @@ public class TimerActivity extends AppCompatActivity {
 
     public void resetTimer(){
         button.setText("Notify Me!");
-        timerSeekBar.setProgress(30);
+        timerSeekBar.setProgress(60);
         timerSeekBar.setEnabled(true);
-        timerText.setText("0:30");
+        timerText.setText("1:00");
         counter.cancel();
         counterActive = false;
     }
@@ -46,9 +46,6 @@ public class TimerActivity extends AppCompatActivity {
                 @Override
                 public void onFinish() {
 
-
-                    //MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sound);
-                    //mPlayer.start();
                     resetTimer();
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),"ID")
                             .setSmallIcon(R.drawable.map)
@@ -91,8 +88,8 @@ public class TimerActivity extends AppCompatActivity {
 
         timerText = findViewById(R.id.timerText);
         timerSeekBar = findViewById(R.id.timerSeekBar);
-        timerSeekBar.setMax(600); //it refers to maximum of 10 minutes.
-        timerSeekBar.setProgress(30);
+        timerSeekBar.setMax(1800); //it refers to maximum of 30 minutes.
+        timerSeekBar.setProgress(60); //the seek bar starts with 1 minute
         timerSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
