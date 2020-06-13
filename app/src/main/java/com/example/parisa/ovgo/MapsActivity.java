@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
                 }
             }
         }
@@ -87,32 +87,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
-
-                // Add a marker in current location.
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-
-                try {
-                    List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    if (listAddresses != null && listAddresses.size() > 0) {
-
-                        if (listAddresses.get(0).getThoroughfare() != null) {
-                            address += listAddresses.get(0).getThoroughfare() + " ";
-                        }
-                        if (listAddresses.get(0).getAdminArea() != null) {
-                            address += listAddresses.get(0).getAdminArea() + " ";
-                        }
-                        if (listAddresses.get(0).getPostalCode() != null) {
-                            address += listAddresses.get(0).getPostalCode() + " ";
-                        }
-                        if (listAddresses.get(0).getLocality() != null) {
-                            address += listAddresses.get(0).getLocality();
-                        }
-
-                        //Double radius = calculationByDistance(currentLocation, latLngOfG9);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
 
             @Override
@@ -131,7 +105,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         };
-        Toast.makeText(MapsActivity.this, address, Toast.LENGTH_LONG).show();
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -161,6 +135,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = new Intent(getApplicationContext(),ParkingLotActivity.class);
             startActivity(intent);
             return true;
+        } else if(marker.equals(finMarker)){
+            Toast.makeText(MapsActivity.this,"This parking area is not active.",Toast.LENGTH_SHORT).show();
         }
         return false;
     }

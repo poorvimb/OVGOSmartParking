@@ -82,7 +82,7 @@ public class ParkingLotActivity extends AppCompatActivity {
             imageButton1.setImageResource(R.drawable.cargreen);
         } else{
             imageButton1.setImageResource(R.drawable.carred);
-            textView1.setText("Parking\nlot 1\nis Full");
+            textView1.setText("\nLot 1\nFull");
         }
 
     }
