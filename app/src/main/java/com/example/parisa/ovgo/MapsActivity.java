@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
@@ -110,7 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         addressTst = Toast.makeText(MapsActivity.this, address, Toast.LENGTH_LONG);
                         addressTst.show();
                         addressTst.cancel();
-                        Double radius = CalculationByDistance(currentLocation, latLngOfG9);
+                        //Double radius = CalculationByDistance(currentLocation, latLngOfG9);
 
 
                     }
@@ -149,6 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                mMap.clear();
                 Log.i("User Location", lastKnownLocation.toString());
                 // Add a marker in current location.
                 LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
@@ -169,8 +172,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         if (marker.equals(lotMarker)){
 
-            //Intent intent = new Intent(getApplicationContext(),ParkingLotActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(),TimerActivity.class);
+            startActivity(intent);
             return true;
         }
         return false;
@@ -181,7 +184,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     location of parking lots.
      */
 
-    public double CalculationByDistance(LatLng StartP, LatLng EndP) {
+    public double CalculationByDistance(@NotNull LatLng StartP, @NotNull LatLng EndP) {
         int Radius = 6371;// radius of earth in Km
         double lat1 = StartP.latitude;
         double lat2 = EndP.latitude;
