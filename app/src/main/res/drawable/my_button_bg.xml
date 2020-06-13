@@ -9,5 +9,5 @@
         <stroke android:width="8px"
             android:dashWidth="8px"
             android:dashGap="8px"
-            android:color="#000000" />
+            android:color="@color/design_default_color_secondary_variant" />
 </shape>
