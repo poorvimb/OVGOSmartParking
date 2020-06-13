@@ -108,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             address += listAddresses.get(0).getLocality();
                         }
 
-                        //Double radius = CalculationByDistance(currentLocation, latLngOfG9);
+                        //Double radius = calculationByDistance(currentLocation, latLngOfG9);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

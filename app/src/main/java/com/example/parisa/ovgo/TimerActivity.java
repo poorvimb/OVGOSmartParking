@@ -41,11 +41,11 @@ public class TimerActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     updateTimer((int) millisUntilFinished / 1000);
-
                 }
 
                 @Override
                 public void onFinish() {
+
 
                     //MediaPlayer mPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sound);
                     //mPlayer.start();
