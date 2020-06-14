@@ -34,8 +34,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
-import java.util.List;
-import java.util.Locale;
+
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -47,7 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     LocationListener locationListener;
     LatLng currentLocation;
-    String address = "";
+
 
 
     @Override

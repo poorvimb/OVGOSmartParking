@@ -1,5 +1,6 @@
 package com.example.parisa.ovgo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,50 +10,44 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 /*
-Main activity consists of a single logo splash screen with a handler.
-It waits 3000 milli seconds and jump to the Maps activity.
+Main activity consists of a drawer with help, settings and info fragments
+and also a button which will start the Map activity.
  */
 
-public class MainActivity extends AppCompatActivity {
-    Button startButton;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
 
-    //private static int SPLASH_TIME_OUT = 3000;
-
+    //On click method of the start button.
     public void goToMap(View view){
         Intent intent = new Intent(MainActivity.this, MapsActivity.class);
         startActivity(intent);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        startButton = findViewById(R.id.startButton);
-
-
         //configurations for drawer layout
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
-        /*new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent mapsIntent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(mapsIntent);
-                finish();
-            }
-        }, SPLASH_TIME_OUT);*/
     }
 
     //Configurations for drawer layout when pressed again.
@@ -63,5 +58,30 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    //This method controls the navigation of the drawer when they are clicked.
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_settings:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new SettingsFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.nav_help:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HelpFragment()).addToBackStack(null).commit();
+                break;
+            case R.id.nav_info:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new InfoFragment()).addToBackStack(null).commit();
+                break;
+
+            case R.id.nav_email:
+                Toast.makeText(this, "Send", Toast.LENGTH_LONG).show();
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }
