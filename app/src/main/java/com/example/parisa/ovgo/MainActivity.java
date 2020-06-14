@@ -43,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        if (drawer.isDrawerOpen(GravityCompat.START)){
-            startButton.setVisibility(View.INVISIBLE);
-        }else{
-            startButton.setVisibility(View.VISIBLE);
-        }
+
 
         /*new Handler().postDelayed(new Runnable() {
             @Override
