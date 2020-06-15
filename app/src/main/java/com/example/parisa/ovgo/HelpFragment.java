@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 
+import org.jetbrains.annotations.NotNull;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class HelpFragment extends Fragment {
 
-    WebView webView;
+    private WebView webView;
     String content="<h1>Help</h1>\n" +         //content of the page
 
             "        <p>The OVGO app is a smart parking application designed for the campus of the OVGU which enables users to find out whether a parking lot is free or not. It is a user-friendly android application. Read below if you need some help to get started.</p>\n" +
@@ -37,7 +39,7 @@ public class HelpFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         // init webView
