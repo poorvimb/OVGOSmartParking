@@ -3,7 +3,6 @@ package com.example.parisa.ovgo;
 import androidx.annotation.NonNull;
 
 
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -12,6 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -19,7 +19,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -47,6 +46,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locationListener;
     LatLng currentLocation;
 
+    int distanceFromSettings;
 
 
     @Override
@@ -77,6 +77,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        /*
+        This part gets the maximum distance value that user gives in the settings fragment.
+        This value is used to show the parking zones within the radius that user wants.
+         */
+        SharedPreferences preferences = getSharedPreferences("com.example.parisa.ovgo",Context.MODE_PRIVATE);
+        distanceFromSettings = preferences.getInt("distanceFromSettings",0);
+        Log.i("infoSettings", String.valueOf(distanceFromSettings));
+
         mMap = googleMap;
         lotMarker = mMap.addMarker(new MarkerOptions().position(latLngOfG9).title("Parking zone 1").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)).zIndex(1.0f));
         finMarker = mMap.addMarker(new MarkerOptions().position(latLngOfFin).title("Parking zone 2").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)));
@@ -134,12 +143,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (marker.equals(lotMarker)){
-            Intent intent = new Intent(getApplicationContext(),ParkingLotActivity.class);
+        if (marker.equals(lotMarker)) {
+            Intent intent = new Intent(getApplicationContext(), ParkingLotActivity.class);
             startActivity(intent);
             return true;
-        } else if(marker.equals(finMarker)){
-            Toast.makeText(MapsActivity.this,"This parking area is not active.",Toast.LENGTH_SHORT).show();
+        } else if (marker.equals(finMarker)) {
+            Toast.makeText(MapsActivity.this, "This parking area is not active.", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
@@ -173,5 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return Radius * c;
     }
+
+
 
 }
