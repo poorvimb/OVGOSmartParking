@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -41,6 +42,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 SharedPreferences preferences = getContext().getSharedPreferences("com.example.parisa.ovgo", Context.MODE_PRIVATE);
                 preferences.edit().putInt("distanceFromSettings", distance).apply();
+                Toast.makeText(getContext(), "Distance saved", Toast.LENGTH_SHORT).show();
             }
         });
 

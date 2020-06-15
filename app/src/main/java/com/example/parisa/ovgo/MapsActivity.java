@@ -78,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+        mMap = googleMap;
         /*
         This part gets the maximum distance value that user gives in the settings fragment.
         This value is used to show the parking zones within the radius that user wants.
@@ -86,9 +87,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         distanceFromSettings = preferences.getInt("distanceFromSettings",10); //default value is 10 KM.
         Log.i("infoSettings", String.valueOf(distanceFromSettings));
 
-        mMap = googleMap;
+
         lotMarker = mMap.addMarker(new MarkerOptions().position(latLngOfG9).title("Parking zone 1").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)).zIndex(1.0f));
         finMarker = mMap.addMarker(new MarkerOptions().position(latLngOfFin).title("Parking zone 2").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)));
+
+
         mMap.setOnMarkerClickListener(this);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngOfG9, 15));
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -183,7 +186,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return Radius * c;
     }
-
 
 
 }
