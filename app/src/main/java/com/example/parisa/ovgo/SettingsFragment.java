@@ -11,11 +11,15 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class SettingsFragment extends Fragment {
-    int distance;
+    private int distance;
 
     @Nullable
     @Override
@@ -24,11 +28,11 @@ public class SettingsFragment extends Fragment {
     }
 
     /*
-    Defines the seekbar and gets the value from seekbar and send it to MapsActivity
+    Defines the seek bar and gets the value from seek bar and send it to MapsActivity
     when button is clicked.
      */
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         Button button = view.findViewById(R.id.setDistanceButton);
@@ -40,7 +44,7 @@ public class SettingsFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences preferences = getContext().getSharedPreferences("com.example.parisa.ovgo", Context.MODE_PRIVATE);
+                SharedPreferences preferences = Objects.requireNonNull(getContext()).getSharedPreferences("com.example.parisa.ovgo", Context.MODE_PRIVATE);
                 preferences.edit().putInt("distanceFromSettings", distance).apply();
                 Toast.makeText(getContext(), "Distance saved", Toast.LENGTH_SHORT).show();
             }
@@ -52,7 +56,7 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                seekBarValue.setText(String.valueOf(progress) + "KM");
+                seekBarValue.setText(progress + " KM");
                 distance = progress;
             }
 
