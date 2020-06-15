@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_email:
-                Toast.makeText(this, "Send", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Contact us via\n info.ovgo@gmail.com", Toast.LENGTH_LONG).show();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
