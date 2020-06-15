@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         This value is used to show the parking zones within the radius that user wants.
          */
         SharedPreferences preferences = getSharedPreferences("com.example.parisa.ovgo",Context.MODE_PRIVATE);
-        distanceFromSettings = preferences.getInt("distanceFromSettings",0);
+        distanceFromSettings = preferences.getInt("distanceFromSettings",10); //default value is 10 KM.
         Log.i("infoSettings", String.valueOf(distanceFromSettings));
 
         mMap = googleMap;
@@ -155,7 +155,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     /* This method calculates the exact distance between two points on the map
     and in this context it is used to calculate distance between current location and the
-    location of parking lots.
+    location of parking lots to be used to make the zones within this radius visible for
+    the user.
      */
 
     public double calculationByDistance(@NotNull LatLng StartP, @NotNull LatLng EndP) {

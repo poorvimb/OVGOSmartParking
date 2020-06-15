@@ -10,11 +10,14 @@
         android:id="@+id/selectRadiusText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:fontFamily="serif"
         android:gravity="center"
+        android:padding="20dp"
         android:text="Please select the distance from your current location in which you want to see the available parking zones"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
