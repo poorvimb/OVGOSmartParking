@@ -20,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class ParkingLotActivity extends AppCompatActivity {
 
@@ -94,12 +94,6 @@ public class ParkingLotActivity extends AppCompatActivity {
         imageButton1 = findViewById(R.id.imageButton1);
         textView1 = findViewById(R.id.textView1);
 
-        /*If the parking status becomes free/occupied the car icon will change
-        this implementation is because we just have one active sensor. It can be
-        changed to fit many parking spaces but for now we will show others as
-        inactive by reducing the alpha in the car icon.
-         */
-
 
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -122,12 +116,15 @@ public class ParkingLotActivity extends AppCompatActivity {
             JSONArray columns = row.getJSONArray("c");
             String payload_raw = columns.getJSONObject(4).getString("v");
 
-
             Data dataOfParking = new Data(payload_raw);
             parkingData.add(dataOfParking);
-
-
             data = payload_raw;
+
+            /*If the parking status becomes free/occupied the car icon will change
+        this implementation is because we just have one active sensor. It can be
+        changed to fit many parking spaces but for now we will show others as
+        inactive by reducing the alpha in the car icon.
+         */
             if (data.equals("AA==")) {
                 flag = true;//parking is empty (AA==) in Base64 format.
                 imageButton1.setImageResource(R.drawable.cargreen);

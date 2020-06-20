@@ -88,8 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.i("infoSettings", String.valueOf(distanceFromSettings));
 
 
-        lotMarker = mMap.addMarker(new MarkerOptions().position(latLngOfG9).title("Parking zone 1").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)).zIndex(1.0f));
-        finMarker = mMap.addMarker(new MarkerOptions().position(latLngOfFin).title("Parking zone 2").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)));
+
+
 
 
         mMap.setOnMarkerClickListener(this);
@@ -98,10 +98,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-
+                mMap.clear(); // removes the previous current location marker.
+                lotMarker = mMap.addMarker(new MarkerOptions().position(latLngOfG9).title("Parking zone 1").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)).zIndex(1.0f));
+                finMarker = mMap.addMarker(new MarkerOptions().position(latLngOfFin).title("Parking zone 2").icon(BitmapDescriptorFactory.fromResource(R.drawable.placemarker)));
                 currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(currentLocation).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
 
+                /*
+                Checks and hides the parking zone markers if the distance of user exceeds
+                the value in the settings part.
+                 */
+                if(calculationByDistance(latLngOfFin, currentLocation) > distanceFromSettings){
+                    finMarker.setVisible(false);
+                }
+                if(calculationByDistance(latLngOfG9, currentLocation) > distanceFromSettings){
+                    lotMarker.setVisible(false);
+                }
             }
 
             @Override

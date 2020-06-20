@@ -36,7 +36,7 @@
             android:background="@drawable/rounded_button_bg"
             android:onClick="goToMap"
             android:padding="10dp"
-            android:text="Let's Go"
+            android:text="@string/let_s_go"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

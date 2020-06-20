@@ -9,12 +9,7 @@ public class Data {
         this.setPayload(payload_raw);
     }
 
-    String getPayload() {
-        return payload_raw.substring(payload_raw.length() - 4);
-    }
-
     private void setPayload(String payload_raw) {
         this.payload_raw = payload_raw;
-
     }
 }
