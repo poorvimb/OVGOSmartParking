@@ -6,12 +6,24 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class TimerActivity extends AppCompatActivity {
+
+    ArrayList<Data> parkingData = new ArrayList<>();
+    public boolean flag;
+
+    String data;
 
     TextView timerText;
     SeekBar timerSeekBar;
@@ -33,6 +45,7 @@ public class TimerActivity extends AppCompatActivity {
         if (counterActive) {
             resetTimer();
 
+
         } else {
             counterActive = true;
             timerSeekBar.setEnabled(false);
@@ -41,6 +54,8 @@ public class TimerActivity extends AppCompatActivity {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     updateTimer((int) millisUntilFinished / 1000);
+                    getData();
+
                 }
 
                 @Override
@@ -83,7 +98,6 @@ public class TimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-
         button = findViewById(R.id.button);
 
         timerText = findViewById(R.id.timerText);
@@ -109,5 +123,48 @@ public class TimerActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private void processJson(JSONObject object) {
+
+        try {
+            JSONArray rows = object.getJSONArray("rows");
+            JSONObject row = rows.getJSONObject(rows.length() - 1);
+            JSONArray columns = row.getJSONArray("c");
+            String payload_raw = columns.getJSONObject(4).getString("v");
+
+            Data dataOfParking = new Data(payload_raw);
+            parkingData.add(dataOfParking);
+            data = payload_raw;
+
+            /*If the parking status becomes free/occupied the car icon will change
+        this implementation is because we just have one active sensor. It can be
+        changed to fit many parking spaces but for now we will show others as
+        inactive by reducing the alpha in the car icon.
+         */
+            if (data.equals("AA==")) {
+                flag = true;//parking is empty (AA==) in Base64 format.
+
+
+            } else if(data.equals("AQ==")) {
+                flag = false;//parking is full (AQ==) in Base64 format.
+
+            }
+            Log.i("flag", String.valueOf(flag));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void getData() {
+        new DownloadWebpageTask(new AsyncResult() {
+            @Override
+            public void onResult(JSONObject object) {
+                processJson(object);
+            }
+        }).execute("https://spreadsheets.google.com/tq?key=1gGyJS2phIcmiTEEUdUhOsyqekEudBue_NtNkjKsTQrQ");
     }
 }
