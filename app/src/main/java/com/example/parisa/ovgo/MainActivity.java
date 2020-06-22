@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //On click method of the start button.
     public void goToMap(View view){
-        Intent intent = new Intent(MainActivity.this, TimerActivity.class);
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
         startActivity(intent);
     }
 

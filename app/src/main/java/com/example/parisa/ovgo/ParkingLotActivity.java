@@ -30,7 +30,8 @@ public class ParkingLotActivity extends AppCompatActivity {
 
 
     ArrayList<Data> parkingData = new ArrayList<>();
-    public boolean flag;
+    public boolean parkingIsFree;
+
 
     String data;
 
@@ -45,7 +46,7 @@ public class ParkingLotActivity extends AppCompatActivity {
         String message;
         String pressedButton = view.getTag().toString();
         if (pressedButton.equals("1")) {
-            if (flag) {
+            if (parkingIsFree) {
                 message = "The parking lot is free!";
 
             } else {
@@ -126,17 +127,17 @@ public class ParkingLotActivity extends AppCompatActivity {
         inactive by reducing the alpha in the car icon.
          */
             if (data.equals("AA==")) {
-                flag = true;//parking is empty (AA==) in Base64 format.
+                parkingIsFree = true;//parking is empty (AA==) in Base64 format.
                 imageButton1.setImageResource(R.drawable.cargreen);
                 textView1.setText("\nLot 1\nFree");
 
             } else if(data.equals("AQ==")) {
-                flag = false;//parking is full (AQ==) in Base64 format.
+                parkingIsFree = false;//parking is full (AQ==) in Base64 format.
                 imageButton1.setImageResource(R.drawable.carred);
                 textView1.setText("\nLot 1\nFull");
                 createDialog();
             }
-            Log.i("flag", String.valueOf(flag));
+            Log.i("flag", String.valueOf(parkingIsFree));
 
 
         } catch (JSONException e) {

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class TimerActivity extends AppCompatActivity {
 
     ArrayList<Data> parkingData = new ArrayList<>();
-    public boolean flag;
+    public boolean parkingIsFree;
 
     String data;
 
@@ -31,7 +31,7 @@ public class TimerActivity extends AppCompatActivity {
     Button button;
     CountDownTimer counter;
 
-    public void resetTimer(){
+    public void resetTimer() {
         button.setText("Notify Me!");
         timerSeekBar.setProgress(60);
         timerSeekBar.setEnabled(true);
@@ -39,12 +39,15 @@ public class TimerActivity extends AppCompatActivity {
         counter.cancel();
         counterActive = false;
     }
-
+/*
+ Method for the button click. counterActive is a boolean value that shows the counter status.
+ If the counter is not active it starts a new counter. Inside the onTick method it will constantly
+ check for the parking status change and notifies the user if it becomes free again.
+ */
 
     public void start(View view) {
         if (counterActive) {
             resetTimer();
-
 
         } else {
             counterActive = true;
@@ -55,6 +58,19 @@ public class TimerActivity extends AppCompatActivity {
                 public void onTick(long millisUntilFinished) {
                     updateTimer((int) millisUntilFinished / 1000);
                     getData();
+                    if (parkingIsFree) {
+                        resetTimer();
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "ID")
+                                .setSmallIcon(R.drawable.map)
+                                .setContentTitle("OVGO App")
+                                .setContentText("The parking lot is free again.")
+                                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+                        // notificationId is a unique int for each notification that you must define
+                        notificationManager.notify(2, builder.build());
+                    }
 
                 }
 
@@ -62,7 +78,7 @@ public class TimerActivity extends AppCompatActivity {
                 public void onFinish() {
 
                     resetTimer();
-                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),"ID")
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "ID")
                             .setSmallIcon(R.drawable.map)
                             .setContentTitle("OVGO App")
                             .setContentText("Time is up.The requested lot is still full!")
@@ -70,7 +86,7 @@ public class TimerActivity extends AppCompatActivity {
 
                     NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
 
-// notificationId is a unique int for each notification that you must define
+                    // notificationId is a unique int for each notification that you must define
                     notificationManager.notify(1, builder.build());
 
                 }
@@ -78,19 +94,18 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
-    public void updateTimer(int secondsLeft){
-        final int minutes = secondsLeft/60;
-        final int seconds = secondsLeft-(minutes*60);
+    public void updateTimer(int secondsLeft) {
+        final int minutes = secondsLeft / 60;
+        final int seconds = secondsLeft - (minutes * 60);
         String secondString = Integer.toString(seconds);
 
-        if(seconds <= 9){
+        if (seconds <= 9) {
             secondString = "0" + secondString;
         }
 
-        timerText.setText(minutes+ " : "+ secondString);
+        timerText.setText(minutes + " : " + secondString);
 
     }
-
 
 
     @Override
@@ -138,19 +153,19 @@ public class TimerActivity extends AppCompatActivity {
             data = payload_raw;
 
             /*If the parking status becomes free/occupied the car icon will change
-        this implementation is because we just have one active sensor. It can be
+        this implementation. because we just have one active sensor. It can be
         changed to fit many parking spaces but for now we will show others as
         inactive by reducing the alpha in the car icon.
          */
             if (data.equals("AA==")) {
-                flag = true;//parking is empty (AA==) in Base64 format.
+                parkingIsFree = true;//parking is empty (AA==) in Base64 format.
 
 
-            } else if(data.equals("AQ==")) {
-                flag = false;//parking is full (AQ==) in Base64 format.
+            } else if (data.equals("AQ==")) {
+                parkingIsFree = false;//parking is full (AQ==) in Base64 format.
 
             }
-            Log.i("flag", String.valueOf(flag));
+            Log.i("flag", String.valueOf(parkingIsFree));
 
 
         } catch (JSONException e) {
@@ -159,6 +174,10 @@ public class TimerActivity extends AppCompatActivity {
 
     }
 
+    /*
+    Reloading the data each time it's called.
+    This method is called inside the timer onTick method to get data during active timer mode.
+     */
     public void getData() {
         new DownloadWebpageTask(new AsyncResult() {
             @Override
