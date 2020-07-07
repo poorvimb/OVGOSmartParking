@@ -31,6 +31,11 @@ public class TimerActivity extends AppCompatActivity {
     Button button;
     CountDownTimer counter;
 
+    /*
+    Resets the timer with initial value of one minute.
+    It also makes seekBar enable again.
+     */
+
     public void resetTimer() {
         button.setText("Notify Me!");
         timerSeekBar.setProgress(60);

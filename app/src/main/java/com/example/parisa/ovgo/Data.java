@@ -1,6 +1,6 @@
 package com.example.parisa.ovgo;
 
-public class Data {
+class Data {
     private String payload_raw;
 
 
