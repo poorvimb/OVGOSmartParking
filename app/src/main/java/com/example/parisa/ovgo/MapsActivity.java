@@ -84,9 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         This part gets the maximum distance value that user gives in the settings fragment.
         This value is used to show the parking zones within the radius that user wants.
          */
-        SharedPreferences preferences = getSharedPreferences("com.example.parisa.ovgo",Context.MODE_PRIVATE);
-        distanceFromSettings = preferences.getInt("distanceFromSettings",10); //default value is 10 KM.
-        Log.i("infoSettings", String.valueOf(distanceFromSettings));
+        //SharedPreferences preferences = getSharedPreferences("com.example.parisa.ovgo",Context.MODE_PRIVATE);
+        //distanceFromSettings = preferences.getInt("distanceFromSettings",10); //default value is 10 KM.
+        //Log.i("infoSettings", String.valueOf(distanceFromSettings));
 
 
 
