@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        assert mapFragment != null;
+
         mapFragment.getMapAsync(this);
 
     }
@@ -109,12 +109,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Checks and hides the parking zone markers if the distance of user exceeds
                 the value in the settings part.
                  */
-                if(calculationByDistance(latLngOfFin, currentLocation) > distanceFromSettings){
+                /*if(calculationByDistance(latLngOfFin, currentLocation) > distanceFromSettings){
                     finMarker.setVisible(false);
                 }
                 if(calculationByDistance(latLngOfG9, currentLocation) > distanceFromSettings){
                     lotMarker.setVisible(false);
-                }
+                }*/
             }
 
             @Override
@@ -142,7 +142,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            assert lastKnownLocation != null;
             mMap.clear();
             Log.i("User Location", lastKnownLocation.toString());
             // Add a marker in current location.
